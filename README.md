@@ -25,35 +25,40 @@ Pagina de Home
 Tecnologias usadas backend y frontend:
 
   * Flask
-   ![image](https://user-images.githubusercontent.com/64329987/209417679-2698c485-ebcf-4fa2-870a-12efbda5eefc.png)
+   
 
   * Tailwind
    
-   ![image](https://user-images.githubusercontent.com/64329987/209417700-0e3c82f5-5fca-4e64-9e00-952f02190b2a.png)
+  
 
    
   * Javascript
 
-    ![image](https://user-images.githubusercontent.com/64329987/209417691-4a52aa83-e53f-46e0-a2f4-660f9c2ead14.png)
+ 
 
   * Python
 
-    ![image](https://user-images.githubusercontent.com/64329987/209417709-27f60151-27e7-4730-bbce-ec981b86e2e1.png)
+    
 
     
   * MongoDB
 
-   ![image](https://user-images.githubusercontent.com/64329987/209417718-d335afb6-a83b-467b-8616-083327a988a6.png)
+
 
   * Html
 
-    ![image](https://user-images.githubusercontent.com/64329987/209417725-fc1e771c-19b0-41a8-ad42-2c51ee275803.png)
+
 
     
   * Jquery
+  
+  
+  * Fast api
 
-    ![image](https://user-images.githubusercontent.com/64329987/209417744-b8b291aa-501f-4806-8081-bb3cd4a9e060.png)
-
+ 
+ Link de la api:
+       
+       https://github.com/diln20/Socnet_api
 
 #Cambios Proximos:
 
