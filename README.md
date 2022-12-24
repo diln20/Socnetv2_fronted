@@ -1,5 +1,13 @@
 # Socnet Version 2
 
+Replica de una Red Social base con modificaciones tomando como referencia facebook y como framework web flask
+
+
+Curso base para la creación:
+
+https://www.edx.org/es/course/introduccion-al-desarrollo-de-aplicaciones-web-2
+
+
 Pagina Principal de la web 
 
 
