@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <link href="static/css/my-socnet-style.css" rel="stylesheet" type="text/css" />
+    <title>
+        SocNet
+    </title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+</head>
+
+<body id="op1">
+    <img src="logo.png">
+    <!--<img src="/img/logo-new.svg"> -->
+    <div id="container2">
+
+        <a href="/" id="barra">
+
+            SocNet
+        </a>
+        /
+        {% if logged %}
+        <a href="home" id="barra">
+            Home
+        </a>
+        /
+        <a href="profile" id="barra">
+
+            Profile
+            <span class="material-icons">
+                account_circle
+            </span>
+        </a>
+        /
+        <a href="logout" id="barra">
+            Log Out ({{ nickname }})
+        </a>
+        {% else %}
+        <a href="login" id="barra">
+            <span class="material-icons">
+                login
+            </span>
+            Log In
+        </a>
+        /
+        <a href="signup" id="barra">
+            <span class="material-icons">
+                person_add
+            </span>
+            Sign Up
+        </a>
+        {% endif %}
+    </div>
+    <div id="container3">
+        <h1 id="hi">
+            Hola, Bienvenido a SocNet
+        </h1>
+        <div>
+            <p id="parf"> Elige <b>Sign Up</b> si no estas registrado</p>
+            <p id="parf"> Elige <b>Login</b> si ya tienes cuenta</p>
+            <p id="parf"> Elige <b>Home</b> listo para escribir tu historia</p>
+
+        </div>
+    </div>
+    <div id="logo">
+
+    </div>
+</body>
+
+</html>

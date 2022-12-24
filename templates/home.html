@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        Home
+    </title>
+    <script src="static/js/uploadphoto.js"></script>
+    <link rel="shortcut icon" href="./images/fb-logo.png" type="image/png">
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <link
+    rel="stylesheet"
+    href="{{url_for('static',filename='css/dist/output.css')}}"
+  />
+    <link href="static/css/my-socnet-style.css" rel="stylesheet" type="text/css" />
+    <script src="https://code.jquery.com/jquery-3.4.0.min.js"
+        integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="static/js/home.js"></script>
+    <link href="static/css/my-socnet-style.css" rel="stylesheet" type="text/css" />
+    <link href="static/css/my-socnet-style.css" rel="stylesheet" type="text/css" />
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- La siguiente línea carga jQuery en el cliente, solo es necesaria si se va a utilizar esta biblioteca -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="static/js/home.js"></script>
+    <script>
+        // Asignación de la funcionalidad del documento en el cliente con jQuery una vez se ha producido la descarga
+        // Este método sustituye a la asignación de handles de funciones en los eventos HTML correspondientes
+        // Se indica con comentarios cómo se realizaría la misma asignación de funcionalidad con el estándar
+
+        // Una vez está disponible todo el contenido del documento, lo que asegura que la biblioteca jQuery se
+        // ha descargado correctamente en el cliente, se asigna la funcionalidad a los elementos del documento
+        $(document).ready(function () {
+            // Equivalente a asignar una función anónima el evento submit del formulario
+            $('form[name=home]').submit(function (evnt) {
+                if (!validateMessageDHTML(this)) {
+                    evnt.preventDefault()
+                }
+            })
+
+            // Equivalente a asignar la función updateFriendMessages al evento change del select
+            $('select[name=friend]').change(updateFriendMessagesJQUERY)
+
+            // Equivalente a asignar las funciones correspondientes al evento click de cada input
+            $('input[name=select_friend]').click(showFriends)
+            $('input[name=cancel_friend]').click(function () {
+                $("#div_friends").hide()
+                $("#div_messages").show()
+            });
+            $('input[name="ok_friend"]').click(selectFriend)
+
+            // Una vez se ha descargado la página se solicitan los mensajes en función de la selección del usuario
+            // en el campo de amigos de los que ver los mensajes
+            // En caso de no usar jQuery estas llamadas debería hacerse en el load del documento
+            updateFriendMessagesJQUERY()
+            $("#right").show()
+        });
+    </script>
+
+    <style>
+        .animated {
+            -webkit-animation-duration: 1s;
+            animation-duration: 1s;
+            -webkit-animation-fill-mode: both;
+            animation-fill-mode: both;
+        }
+
+        .animated.faster {
+            -webkit-animation-duration: 500ms;
+            animation-duration: 500ms;
+        }
+
+        .fadeIn {
+            -webkit-animation-name: fadeIn;
+            animation-name: fadeIn;
+        }
+
+        .fadeOut {
+            -webkit-animation-name: fadeOut;
+            animation-name: fadeOut;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+
+            to {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+
+<body class="bg-#d1d5db">
+    <!-- NAV -->
+    <nav
+        class="fixed top-0 z-50 flex flex-col items-center justify-center w-full bg-blue-200 border-b shadow h-max md:h-14 md:flex-row md:justify-between dark:border-dark-third">
+
+        <!-- LEFT NAV -->
+        <div class="flex items-center justify-between w-full px-4 py-2 md:w-max">
+            <a href="#" class="hidden mr-2 md:inline-block">
+                <img src="{{ url_for('static', filename='svg/'+'logo.png')}}" alt="SocNet logo"
+                    class="w-24 h-auto sm:w-20 lg:w-10">
+            </a>
+            <a href="#" class="inline-block md:hidden">
+                <img src="{{ url_for('static', filename='svg/'+'logo.png')}}" alt="" class="w-12 h-auto">
+            </a>
+            <div class="flex items-center justify-between space-x-1">
+                <div
+                    class="relative flex items-center justify-center w-10 h-10 px-2 py-2 bg-gray-100 rounded-full cursor-pointer dark:bg-dark-third sm:w-11 sm:h-11 lg:h-10 lg:w-10 xl:w-max xl:pl-3 xl:pr-8">
+                    <i class='text-xl bx bx-search-alt-2 xl:mr-2 dark:text-dark-txt'></i>
+                    <input type="text" placeholder="Search SocNet"
+                        class="hidden bg-transparent outline-none xl:inline-block">
+                </div>
+                <div
+                    class="grid w-10 h-10 text-2xl bg-gray-200 rounded-full cursor-pointer place-items-center md:hidden dark:bg-dark-third hover:bg-gray-300 dark:text-dark-txt">
+                    <i class='bx bxl-messenger'></i>
+                </div>
+                <div class="grid w-10 h-10 text-2xl bg-gray-200 rounded-full cursor-pointer place-items-center md:hidden dark:bg-dark-third hover:bg-gray-300 dark:text-dark-txt"
+                    id="dark-mode-toggle-mb">
+                    <i class='bx bxs-moon'></i>
+                </div>
+            </div>
+        </div>
+        <!-- END LEFT NAV -->
+
+        <!-- MAIN NAV -->
+        <ul class="flex items-center justify-center w-full lg:w-max">
+            <li class="w-1/5 text-center md:w-max">
+                <a href="#"
+                    class="inline-block w-full px-3 py-2 text-3xl text-center text-blue-500 border-b-4 border-blue-500 cursor-pointer xl:px-12">
+                    <i class='bx bxs-home'></i>
+                </a>
+            </li>
+            <li class="w-1/5 text-center md:w-max">
+                <a href="#"
+                    class="relative inline-block w-full px-3 py-2 text-3xl text-center text-gray-600 rounded cursor-pointer xl:px-12 hover:bg-gray-100 dark:hover:bg-dark-third dark:text-dark-txt">
+                    <i class='bx bx-movie-play'></i>
+                    <span
+                        class="absolute top-0 px-1 text-xs font-semibold text-center text-white bg-red-500 rounded-full right-1/4">9+</span>
+                </a>
+            </li>
+            <li class="w-1/5 text-center md:w-max">
+                <a href="#"
+                    class="relative inline-block w-full px-3 py-2 text-3xl text-center text-gray-600 rounded cursor-pointer xl:px-12 hover:bg-gray-100 dark:hover:bg-dark-third dark:text-dark-txt">
+                    <i class='bx bx-store'></i>
+                </a>
+            </li>
+            <li class="w-1/5 text-center md:w-max">
+                <a href="#"
+                    class="relative inline-block w-full px-3 py-2 text-3xl text-center text-gray-600 rounded cursor-pointer xl:px-12 hover:bg-gray-100 dark:hover:bg-dark-third dark:text-dark-txt">
+                    <i class='bx bx-group'></i>
+                </a>
+            </li>
+            <li class="hidden w-1/5 text-center md:w-max md:inline-block">
+                <a href="#"
+                    class="relative inline-block w-full px-3 py-2 text-3xl text-center text-gray-600 rounded cursor-pointer xl:px-12 hover:bg-gray-100 dark:hover:bg-dark-third dark:text-dark-txt">
+                    <i class='bx bx-layout'></i>
+                    <span
+                        class="absolute top-0 px-1 text-xs font-semibold text-center text-white bg-red-500 rounded-full right-1/4">9+</span>
+                </a>
+            </li>
+            <li class="inline-block w-1/5 text-center md:w-max md:hidden">
+                <a href="#"
+                    class="relative inline-block w-full px-3 py-2 text-3xl text-center text-gray-600 rounded cursor-pointer xl:px-12 hover:bg-gray-100 dark:hover:bg-dark-third dark:text-dark-txt">
+                    <i class='bx bx-menu'></i>
+                </a>
+            </li>
+        </ul>
+        <!-- RIGHT NAV -->
+        <ul class="items-center justify-center hidden mx-4 md:flex">
+            {%if session['imag']!= "" %}
+            <li class="hidden h-full xl:flex">
+                <a href="profile"
+                    class="inline-flex items-center justify-center p-1 mx-1 rounded-full hover:bg-gray-200 dark:hover:bg-dark-third">
+                    <img src="{{ url_for('static', filename='images/profile_pic/'+session['imag'])}}"
+                        alt="Profile picture" class="rounded-full h-7 w-7">
+                    <span class="mx-2 font-semibold dark:text-dark-txt">{{nickname}}</span>
+                </a>
+            </li>
+            {%else%}
+            <li class="hidden h-full xl:flex">
+                <a href="profile"
+                    class="inline-flex items-center justify-center p-1 mx-1 rounded-full hover:bg-gray-200 dark:hover:bg-dark-third">
+                    <img src="{{ url_for('static', filename='images/profile_pic/default_profile_pic.png')}}"
+                        alt="Profile picture" class="rounded-full h-7 w-7">
+                    <span class="mx-2 font-semibold dark:text-dark-txt">{{nickname}}</span>
+                </a>
+            </li>
+            {%endif%}
+            <li>
+                <div
+                    class="relative hidden p-3 mx-1 text-xl bg-gray-200 rounded-full cursor-pointer xl:grid place-items-center dark:bg-dark-third dark:text-dark-txt hover:bg-gray-300">
+                    <i class='bx bx-plus'></i>
+                </div>
+            </li>
+            <li>
+                <div
+                    class="relative hidden p-3 mx-1 text-xl bg-gray-200 rounded-full cursor-pointer xl:grid place-items-center dark:bg-dark-third dark:text-dark-txt hover:bg-gray-300">
+                    <i class='bx bxl-messenger'></i>
+                </div>
+            </li>
+            <li>
+                <div
+                    class="relative grid p-3 mx-1 text-xl bg-gray-200 rounded-full cursor-pointer place-items-center dark:bg-dark-third dark:text-dark-txt hover:bg-gray-300">
+                    <i class='bx bxs-bell'></i>
+                    <span
+                        class="absolute top-0 right-0 px-1 text-xs font-semibold text-center text-white bg-red-500 rounded-full">9</span>
+                </div>
+            </li>
+
+        </ul>
+        <!-- END RIGHT NAV -->
+    </nav>
+    <!-- END NAV -->
+
+
+    <!-- MAIN -->
+    <div class="flex justify-center h-screen">
+        <!-- LEFT MENU -->
+        <div class="fixed top-0 left-0 flex-col hidden w-1/5 h-full pt-16 xl:flex">
+            <ul class="p-4">
+                {%if session['imag'] != ""%}
+                <li>
+                    <a href="#"
+                        class="flex items-center p-2 space-x-2 transition-all rounded-lg hover:bg-gray-200 dark:text-dark-txt dark:hover:bg-dark-third">
+                        <img src="{{ url_for('static', filename='images/profile_pic/'+session['imag'])}}"
+                            alt="Profile picture" class="w-10 h-10 rounded-full">
+                        <span class="font-semibold">{{nickname}}</span>
+                    </a>
+                </li>
+                {%else%}
+                <li>
+                    <a href="#"
+                        class="flex items-center p-2 space-x-2 transition-all rounded-lg hover:bg-gray-200 dark:text-dark-txt dark:hover:bg-dark-third">
+                        <img src="{{ url_for('static', filename='images/profile_pic/default_profile_pic.png')}}"
+                            alt="Profile picture" class="w-10 h-10 rounded-full">
+                        <span class="font-semibold">{{nickname}}</span>
+                    </a>
+                </li>
+                {%endif%}
+                <li>
+                    <a href="#"
+                        class="flex items-center p-2 space-x-2 transition-all rounded-lg hover:bg-gray-200 dark:text-dark-txt dark:hover:bg-dark-third">
+                        <img src="{{ url_for('static', filename='images/'+'amigos.png')}}" alt="Profile picture"
+                            class="w-10 h-10 rounded-full">
+                        <span class="font-semibold">amigos</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#"
+                        class="flex items-center p-2 space-x-2 transition-all rounded-lg hover:bg-gray-200 dark:text-dark-txt dark:hover:bg-dark-third">
+                        <img src="{{ url_for('static', filename='images/'+'pag.png')}}" alt="Profile picture"
+                            class="w-10 h-10 rounded-full">
+                        <span class="font-semibold">Paginas</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#"
+                        class="flex items-center p-2 space-x-2 transition-all rounded-lg hover:bg-gray-200 dark:text-dark-txt dark:hover:bg-dark-third">
+                        <img src="{{ url_for('static', filename='images/'+'recuerdo.png')}}" alt="Profile picture"
+                            class="w-10 h-10 rounded-full">
+                        <span class="font-semibold">recuerdos</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#"
+                        class="flex items-center p-2 space-x-2 transition-all rounded-lg hover:bg-gray-200 dark:text-dark-txt dark:hover:bg-dark-third">
+                        <img src="{{ url_for('static', filename='images/'+'grupo.png')}}" alt="Profile picture"
+                            class="w-10 h-10 rounded-full">
+                        <span class="font-semibold">Grupos</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#"
+                        class="flex items-center p-2 space-x-2 transition-all rounded-lg hover:bg-gray-200 dark:text-dark-txt dark:hover:bg-dark-third">
+                        <span class="grid w-10 h-10 bg-gray-300 rounded-full place-items-center dark:bg-dark-second">
+                            <i class='bx bx-chevron-down'></i>
+                        </span>
+                        <span class="font-semibold">Ver mas</span>
+                    </a>
+                </li>
+                <li class="mt-6 border-b border-gray-200 dark:border-dark-third"></li>
+            </ul>
+            <div class="flex items-center justify-between h-4 px-4 group">
+                <span class="text-lg font-semibold text-gray-500 dark:text-dark-txt">Accesos directos</span>
+                <span
+                    class="hidden p-2 text-blue-500 rounded-md cursor-pointer hover:bg-gray-200 dark:hover:bg-dark-third group-hover:inline-block">Edit</span>
+            </div>
+            <ul class="p-4">
+                <li>
+                    <a href="#"
+                        class="flex items-center p-2 space-x-2 transition-all rounded-lg hover:bg-gray-200 dark:text-dark-txt dark:hover:bg-dark-third">
+                        <img src="{{ url_for('static', filename='images/'+'grupo.png')}}" alt="Profile picture"
+                            class="w-10 h-10 rounded-lg">
+                        <span class="font-semibold">Renault 9</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#"
+                        class="flex items-center p-2 space-x-2 transition-all rounded-lg hover:bg-gray-200 dark:text-dark-txt dark:hover:bg-dark-third">
+                        <img src="{{ url_for('static', filename='images/'+'grupo.png')}}" alt="Profile picture"
+                            class="w-10 h-10 rounded-lg">
+                        <span class="font-semibold">Ing sistemas unipamplona</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#"
+                        class="flex items-center p-2 space-x-2 transition-all rounded-lg hover:bg-gray-200 dark:text-dark-txt dark:hover:bg-dark-third">
+                        <img src="{{ url_for('static', filename='images/'+'grupo.png')}}" alt="Profile picture"
+                            class="w-10 h-10 rounded-lg">
+                        <span class="font-semibold">Renault group</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#"
+                        class="flex items-center p-2 space-x-2 transition-all rounded-lg hover:bg-gray-200 dark:text-dark-txt dark:hover:bg-dark-third">
+                        <img src="{{ url_for('static', filename='images/'+'f095ba31-8517-11ec-ae00-34e894657787_my_profile.png')}}"
+                            alt="Profile picture" class="w-10 h-10 rounded-lg">
+                        <span class="font-semibold">Juan</span>
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+        <!-- END LEFT MENU -->
+
+
+        <!-- MAIN CONTENT -->
+        <div class="w-full px-2 pt-32 lg:w-2/3 xl:w-2/5 lg:pt-16">
+            <!-- STORY -->
+            <div class="relative flex pt-4 space-x-2">
+                <div class="flex flex-col w-1/4 overflow-hidden shadow cursor-pointer sm:w-1/6 h-44 rounded-xl group">
+                    {%if session['imag'] != ""%}
+                    <div class="overflow-hidden h-3/5">
+                        <img src="{{ url_for('static', filename='images/profile_pic/'+session['imag'])}}" alt="picture"
+                            class="transition-all duration-700 group-hover:transform group-hover:scale-110">
+                    </div>
+                    {%else%}
+                    <div class="overflow-hidden h-3/5">
+                        <img src="{{ url_for('static', filename='images/profile_pic/default_profile_pic.png')}}"
+                            alt="picture"
+                            class="transition-all duration-700 group-hover:transform group-hover:scale-110">
+                    </div>
+                    {%endif%}
+                    <div
+                        class="relative flex items-end justify-center flex-1 pb-2 leading-none text-center dark:bg-dark-second dark:text-dark-txt">
+                        <span class="font-semibold">
+                            Create a <br> Story
+                        </span>
+                        <div
+                            class="absolute grid w-10 h-10 text-2xl text-white transform -translate-x-1/2 bg-blue-500 border-4 border-white rounded-full place-items-center dark:border-dark-second -top-5 left-1/2">
+                            <i class='bx bx-plus'></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-1/4 overflow-hidden sm:w-1/6 h-44 rounded-xl">
+                    <div class="relative h-full cursor-pointer group">
+                        <img src="{{ url_for('static', filename='images/story.jpg')}}" alt="Story images"
+                            class="w-full h-full transition-all duration-700 group-hover:transform group-hover:scale-110">
+                        <div class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-10"></div>
+                        <span class="absolute bottom-0 pb-2 font-semibold text-white left-2">
+                            Your story
+                        </span>
+                        <div
+                            class="absolute w-10 h-10 overflow-hidden border-4 border-blue-500 rounded-full top-2 left-2">
+                            <img src="{{ url_for('static', filename='images/tuat.jpg')}}" alt="Profile picture">
+                        </div>
+                    </div>
+                </div>
+                <div class="w-1/4 overflow-hidden sm:w-1/6 h-44 rounded-xl">
+                    <div class="relative h-full cursor-pointer group">
+                        <img src="{{ url_for('static', filename='images/story-1.jpg')}}" alt="Story images"
+                            class="w-full h-full transition-all duration-700 group-hover:transform group-hover:scale-110">
+                        <div class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-10"></div>
+                        <span class="absolute bottom-0 pb-2 font-semibold text-white left-2">
+                            Lorem
+                        </span>
+                        <div
+                            class="absolute w-10 h-10 overflow-hidden border-4 border-blue-500 rounded-full top-2 left-2">
+                            <img src="{{ url_for('static', filename='images/avt-7.jpg')}}" alt="Profile picture">
+                        </div>
+                    </div>
+                </div>
+                <div class="w-1/4 overflow-hidden sm:w-1/6 h-44 rounded-xl">
+                    <div class="relative h-full cursor-pointer group">
+                        <img src="{{ url_for('static', filename='images/story-2.jpg')}}" alt="Story images"
+                            class="w-full h-full transition-all duration-700 group-hover:transform group-hover:scale-110">
+                        <div class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-10"></div>
+                        <span class="absolute bottom-0 pb-2 font-semibold text-white left-2">
+                            John Doe
+                        </span>
+                        <div
+                            class="absolute w-10 h-10 overflow-hidden border-4 border-blue-500 rounded-full top-2 left-2">
+                            <img src="{{ url_for('static', filename='images/avt-6.png')}}" alt="Profile picture">
+                        </div>
+                    </div>
+                </div>
+                <div class="hidden w-1/4 overflow-hidden sm:inline-block sm:w-1/6 h-44 rounded-xl">
+                    <div class="relative h-full cursor-pointer group">
+                        <img img src="{{ url_for('static', filename='images/story-3.jpg')}}" alt="Story images"
+                            class="w-full h-full transition-all duration-700 group-hover:transform group-hover:scale-110">
+                        <div class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-10"></div>
+                        <span class="absolute bottom-0 pb-2 font-semibold text-white left-2">
+                            John Doe
+                        </span>
+                        <div
+                            class="absolute w-10 h-10 overflow-hidden border-4 border-blue-500 rounded-full top-2 left-2">
+                            <img src="{{ url_for('static', filename='images/avt-6.png')}}" alt="Profile picture">
+                        </div>
+                    </div>
+                </div>
+                <div class="hidden w-1/4 overflow-hidden sm:inline-block sm:w-1/6 h-44 rounded-xl">
+                    <div class="relative h-full cursor-pointer group">
+                        <img src="{{ url_for('static', filename='images/story-4.jpg')}}" alt="Story images"
+                            class="w-full h-full transition-all duration-700 group-hover:transform group-hover:scale-110">
+                        <div class="absolute top-0 left-0 w-full h-full bg-black bg-opacity-10"></div>
+                        <span class="absolute bottom-0 pb-2 font-semibold text-white left-2">
+                            John Doe
+                        </span>
+                        <div
+                            class="absolute w-10 h-10 overflow-hidden border-4 border-blue-500 rounded-full top-2 left-2">
+                            <img src="{{ url_for('static', filename='images/avt-5.jpg')}}" alt="Profile picture">
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="absolute hidden w-12 h-12 text-2xl text-gray-500 transform -translate-y-1/2 bg-white border border-gray-200 rounded-full shadow cursor-pointer lg:grid place-items-center -right-6 top-1/2 hover:bg-gray-100 dark:bg-dark-third dark:border-dark-third dark:text-dark-txt">
+                    <i class='bx bx-right-arrow-alt'></i>
+                </div>
+            </div>
+            <!-- END STORY -->
+
+
+
+            <!-- POST FORM -->
+            <div class="max-w-xl mx-auto my-10 bg-white rounded-lg shadow dark:bg-dark-second">
+                <div class="flex p-2 space-x-4 border-b border-gray-300 dark:border-dark-third">
+                    {%if session['imag']!= "" %}
+                    <img src="{{ url_for('static', filename='images/profile_pic/'+session['imag'])}}"
+                        alt="Profile picture" class="w-10 h-10 rounded-full">
+                    {%else%}
+
+                    <img src="{{ url_for('static',filename='images/profile_pic/default_profile_pic.png')}}"
+                        alt="Profile picture" class="w-10 h-10 rounded-full">
+                    {%endif%}
+                    <div
+                        class="flex items-center justify-start flex-1 pl-4 text-lg text-gray-500 bg-gray-100 rounded-full cursor-pointer dark:bg-dark-third dark:text-dark-txt">
+                        <button
+                            class="flex items-center justify-start flex-1 pl-4 text-lg text-gray-500 bg-gray-100 rounded-full cursor-pointer dark:bg-dark-third dark:text-dark-txt"
+                            type="button" data-modal-toggle="authentication-modal">
+                            Como estas tu , {{nickname}}?
+                        </button>
+                    </div>
+                </div>
+                <div class="flex p-2">
+                    <div
+                        class="flex items-center justify-center w-1/3 py-2 space-x-2 text-xl text-red-500 rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-dark-third sm:text-3xl">
+                        <i class='bx bxs-video-plus'></i>
+                        <span class="text-xs font-semibold text-gray-500 sm:text-sm dark:text-dark-txt">Live
+                            video</span>
+                    </div>
+                    <div
+                        class="flex items-center justify-center w-1/3 py-2 space-x-2 text-xl text-green-500 rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-dark-third sm:text-3xl">
+                        <i class='bx bx-images'></i>
+                        <span class="text-xs font-semibold text-gray-500 sm:text-sm dark:text-dark-txt">Live
+                            video</span>
+                    </div>
+                    <div
+                        class="flex items-center justify-center w-1/3 py-2 space-x-2 text-xl text-yellow-500 rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-dark-third sm:text-3xl">
+                        <i class='bx bx-smile'></i>
+                        <span class="text-xs font-semibold text-gray-500 sm:text-sm dark:text-dark-txt">Live
+                            video</span>
+                    </div>
+                </div>
+            </div>
+
+            <!--publicaciones -->
+            <!-- END POST FORM -->
+
+
+
+            <!-- LIST POST -->
+            <!-- LIST POST -->
+            {%if Post==NoneType%}
+            {% for Post in posting %}
+            <div>
+                <div class="max-w-xl mx-auto my-10 bg-white rounded-lg shadow dark:bg-dark-second">
+                    <!-- POST -->
+                    <div class="mt-4 bg-white rounded-lg shadow dark:bg-dark-second dark:text-dark-txt">
+                        <!-- POST AUTHOR -->
+                        <div class="flex items-center justify-between px-4 py-2">
+                            <div class="flex items-center space-x-2">
+                                {%if Post.autor[0]['imag']!=""%}
+
+                                <div class="w-auto h-auto border-2 border-pink-500 rounded-full">
+                                    <img class='flex object-cover w-12 h-12 rounded-full shadow cursor-pointer auto'
+                                        alt='User avatar'
+                                        src="{{ url_for('static', filename='images/profile_pic/'+Post.autor[0]['imag'])}}">
+                                </div>
+                                {%else%}
+                                <div class="w-auto h-auto border-2 border-pink-500 rounded-full">
+                                    <img class='object-cover w-12 h-12 rounded-full shadow cursor-pointer'
+                                        alt='User avatar'
+                                        src="{{ url_for('static', filename='images/profile_pic/default_profile_pic.png')}}">
+                                </div>
+                                {%endif%}
+                                <div class="flex flex-col mt-1 mb-2 ml-4">
+                                    <div class='text-sm font-semibold text-gray-600'>{{Post.autor[0]['name']}}
+                                        {{Post.autor[0]['surname']}}</div>
+                                    <div class='flex w-full mt-1'>
+                                        <div class='mr-1 text-xs text-blue-700 cursor-pointer font-base'>
+                                            unipamplona
+                                        </div>
+                                        <div class='text-xs font-thin text-gray-400'>
+                                            • 30 segundos antes
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END POST AUTHOR -->
+
+                        <!-- POST CONTENT -->
+                        {%if Post.imgs==""%}
+                        <div class='items-center px-5 mx-3 mt-6 mb-2 text-sm font-medium text-center text-gray-400'>
+                            <div class='px-5 my-4 mb-10 text-lg font-semibold text-center text-gray-600 mx-7 '>
+                                {{Post.mens}}</div>
+                        </div>
+                        {%else%}
+                        <!-- POST IMAGE -->
+                        <div class='items-center px-5 mx-3 mt-6 mb-2 text-sm font-medium text-center text-gray-400'>
+                            <div class='px-5 my-4 mb-10 text-lg font-semibold text-center text-gray-600 mx-7 '>
+                                {{Post.mens}}</div>
+                        </div>
+                        <img class="rounded" src=" {{ url_for('static', filename='images/pic_post/'+Post.imgs)}}">
+                        <!-- END POST IMAGE -->
+                        {%endif%}
+                        <!-- END POST CONTENT -->
+
+
+
+
+                        <!-- POST REACT -->
+                        <div class="px-4 py-2">
+                            <div class="flex items-center justify-between">
+                                <div class="flex flex-row-reverse items-center">
+                                    <span class="ml-2 text-gray-500 dark:text-dark-txt">999</span>
+                                    <span class="grid -ml-1 text-2xl text-red-800 rounded-full place-items-center">
+                                        <i class='bx bxs-angry'></i>
+                                    </span>
+                                    <span class="grid -ml-1 text-2xl text-red-500 rounded-full place-items-center">
+                                        <i class='bx bxs-heart-circle'></i>
+                                    </span>
+                                    <span class="grid -ml-1 text-2xl text-yellow-500 rounded-full place-items-center">
+                                        <i class='bx bx-happy-alt'></i>
+                                    </span>
+                                </div>
+                                <div class="text-gray-500 dark:text-dark-txt">
+                                    <span>90 comments</span>
+                                    <span>66 Shares</span>
+                                </div>
+                                {%if session['email']==Post.usr%}
+                                <a href="{{ url_for('update_post',post=Post.id)}}"
+                                    class="btn btn-outline-secondary btn-sm"><svg xmlns="http://www.w3.org/2000/svg"
+                                        height="24" viewBox="0 0 24 24" width="24">
+                                        <path d="M0 0h24v24H0V0z" fill="none" />
+                                        <path
+                                            d="M14.06 9.02l.92.92L5.92 19H5v-.92l9.06-9.06M17.66 3c-.25 0-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.2-.2-.45-.29-.71-.29zm-3.6 3.19L3 17.25V21h3.75L17.81 9.94l-3.75-3.75z" />
+                                    </svg> </a>
+
+                                <a href="{{ url_for('delete_post',post=Post.id)}}"
+                                    class="px-2 btn btn-outline-danger btn-sm">
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                                        <path d="M0 0h24v24H0V0z" fill="none" />
+                                        <path
+                                            d="M16 9v10H8V9h8m-1.5-6h-5l-1 1H5v2h14V4h-3.5l-1-1zM18 7H6v12c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7z" />
+                                    </svg> </a>
+                                {%else%}
+                                {%endif%}
+                            </div>
+                        </div>
+                        <!-- END POST REACT -->
+
+                        <!-- POST ACTION -->
+                        <div class="px-4 py-2">
+                            <div class="py-1 border border-l-0 border-r-0 border-gray-200 dark:border-dark-third">
+                                <div class="flex space-x-2">
+                                    <div
+                                        class="flex items-center justify-center w-1/3 py-2 space-x-2 text-xl text-gray-500 rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-dark-third dark:text-dark-txt">
+                                        <i class='bx bx-like'></i>
+                                        <span class="text-sm font-semibold">Like</span>
+                                    </div>
+                                    <div
+                                        class="flex items-center justify-center w-1/3 py-2 space-x-2 text-xl text-gray-500 rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-dark-third dark:text-dark-txt">
+
+                                        <span class="text-sm font-semibold"></span>
+                                    </div>
+                                    <div
+                                        class="flex items-center justify-center w-1/3 py-2 space-x-2 text-xl text-gray-500 rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-dark-third dark:text-dark-txt">
+                                        <i class='bx bx-share bx-flip-horizontal'></i>
+                                        <span class="text-sm font-semibold">Share</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END POST ACTION -->
+                    <!-- LIST COMMENT -->
+                    {%for cnt in cont%}
+                    {%if Post.id==cnt.post_id%}
+                    <div class="px-4 py-2">
+                        <!-- COMMENT -->
+                        <div class="flex space-x-2">
+
+                            {%if session['imag']!= "" %}
+                            <img src="{{ url_for('static', filename='images/profile_pic/'+session['imag'])}}"
+                                alt="Profile picture" class="rounded-full w-9 h-9">
+                            {%else%}
+
+                            <img src="{{ url_for('static',filename='images/profile_pic/default_profile_pic.png')}}"
+                                alt="Profile picture" class="rounded-full w-9 h-9">
+                            {%endif%}
+                            <div>
+                                <div class="p-2 text-sm bg-gray-100 dark:bg-dark-third rounded-2xl">
+                                    <span class="block font-semibold">{{nickname}}</span>
+                                    <span>{{cnt.coments}}</span>
+                                </div>
+                                <div class="p-2 text-xs text-gray-500 dark:text-dark-txt">
+                                    <span class="font-semibold cursor-pointer">Like</span>
+                                    <span>.</span>
+                                    <span class="font-semibold cursor-pointer">Reply</span>
+                                    <span>.</span>
+                                    10m
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- END COMMENT -->
+
+                    </div>
+                    {%else%}
+                    {%endif%}
+                    {%endfor%}
+                    <!-- END LIST COMMENT -->
+
+
+
+                    <!-- COMMENT FORM -->
+                    <div class="py-2 ">
+                        <div class="flex space-x-1">
+
+                            <form action="comentar/{{Post.id}}" method="post" name="comentar">
+                                <div
+                                    class="flex items-center justify-between flex-1 bg-gray-100 rounded-full dark:bg-dark-third">
+                                    {%if session['imag']!=""%}
+                                    <img class='object-cover w-10 h-10 rounded-full shadow cursor-pointer'
+                                        alt='User avatar'
+                                        src="{{ url_for('static', filename='images/profile_pic/'+session['imag'])}}">
+                                    {%else%}
+                                    <img class='object-cover w-10 h-10 rounded-full shadow cursor-pointer'
+                                        alt='User avatar'
+                                        src="{{ url_for('static', filename='images/profile_pic/default_profile_pic.png')}}">
+                                    {%endif%}
+                                    <input name="coment" type="text" placeholder="Escribe un comentario..."
+                                        class="px-10 bg-transparent outline-none flex-w" width="180">
+                                    <div class="flex items-center justify-center mr-3 space-x-0">
+
+                                        <span
+                                            class="grid text-xl text-gray-500 rounded-full cursor-pointer w-7 h-7 place-items-center hover:bg-gray-200 dark:text-dark-txt dark:hover:bg-dark-second"><i
+                                                class='bx bx-camera'></i></span>
+                                        <span
+                                            class="grid text-xl text-gray-500 rounded-full cursor-pointer w-7 h-7 place-items-center hover:bg-gray-200 dark:text-dark-txt dark:hover:bg-dark-second"><i
+                                                class='bx bx-smile'></i></span>
+                                        <button type="submit">
+                                            <span
+                                                class="grid text-xl text-gray-500 rounded-full cursor-pointer w-7 h-7 place-items-center hover:bg-gray-200 dark:text-dark-txt dark:hover:bg-dark-second"><i
+                                                    class='bx bxs-send'></i></span>
+                                        </button>
+
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END COMMENT FORM -->
+        </div>
+        <!-- END POST -->
+    </div>
+
+    {% endfor %}
+    {%else%}
+    <h1>no hay datos</h1>
+    {%endif%}
+
+
+    <!-- LIST POST END-->
+    <!-- component -->
+
+    <!-- RIGHT MENU -->
+    <div class="fixed top-0 right-0 hidden w-1/5 h-full px-4 pt-16 xl:block">
+
+        <div class="h-full">
+
+
+            <!-- CONTACTS -->
+            <div class="flex items-center justify-between px-4 pt-4 text-gray-500 dark:text-dark-txt">
+                <span class="text-lg font-semibold">Contacts</span>
+                <div class="flex space-x-1">
+                    <div
+                        class="grid w-8 h-8 text-xl rounded-full cursor-pointer place-items-center hover:bg-gray-200 dark:hover:bg-dark-third">
+                        <i class='bx bx-search-alt-2'></i>
+                    </div>
+                    <div
+                        class="grid w-8 h-8 text-xl rounded-full cursor-pointer place-items-center hover:bg-gray-200 dark:hover:bg-dark-third">
+                        <i class='bx bx-dots-horizontal-rounded'></i>
+                    </div>
+                </div>
+            </div>
+            <ul class="p-2">
+                <li>
+                    <div
+                        class="flex items-center p-2 space-x-4 rounded-lg cursor-pointer hover:bg-gray-200 dark:hover:bg-dark-third dark:text-dark-txt">
+                        <div class="relative">
+                            <img src="static/images/avt-3.jpg" alt="Friends profile picture" class="rounded-full">
+                            <span
+                                class="absolute right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full top-3/4"></span>
+                        </div>
+                        <div>
+                            <span class="font-semibold">Juan</span>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div
+                        class="flex items-center p-2 space-x-4 rounded-lg cursor-pointer hover:bg-gray-200 dark:hover:bg-dark-third dark:text-dark-txt">
+                        <div class="relative">
+                            <img src="static/images/avt-2.jpg" alt="Friends profile picture" class="rounded-full">
+                            <span
+                                class="absolute right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full top-3/4"></span>
+                        </div>
+                        <div>
+                            <span class="font-semibold">Pedro</span>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div
+                        class="flex items-center p-2 space-x-4 rounded-lg cursor-pointer hover:bg-gray-200 dark:hover:bg-dark-third dark:text-dark-txt">
+                        <div class="relative">
+                            <img src="static/images/avt-4.jpg" alt="Friends profile picture" class="rounded-full">
+                            <span
+                                class="absolute right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full top-3/4"></span>
+                        </div>
+                        <div>
+                            <span class="font-semibold">mark</span>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div
+                        class="flex items-center p-2 space-x-4 rounded-lg cursor-pointer hover:bg-gray-200 dark:hover:bg-dark-third dark:text-dark-txt">
+                        <div class="relative">
+                            <img src="static/images/avt-5.jpg" alt="Friends profile picture" class="rounded-full">
+                            <span
+                                class="absolute right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full top-3/4"></span>
+                        </div>
+                        <div>
+                            <span class="font-semibold">Ben </span>
+                        </div>
+                    </div>
+                </li>
+
+
+
+            </ul>
+            <div class="mt-6 border-b border-gray-200 dark:border-dark-third"></div>
+
+            <!-- CONTACTS -->
+            <!--
+        En la versión final del documento, la parte derecha de la pantalla se descarga oculta porque los
+        mensajes se descargan del servidor con AJAX, de manera que inicialmente el contenedor de mensajes
+        está vacío.
+    -->
+            <div id="right" style="display:none">
+                <!--
+                div_messages y div_friends funcionan como pestañas, cuando uno está visible, el otro debe estar
+                oculto. Por defecto, mostramos los mensajes
+            -->
+                <form id="div_messages">
+                    <span
+                        class="inline-block px-2 py-1 mr-1 text-xs font-semibold uppercase rounded text-slate-600 bg-slate-200 last:mr-0">
+                        Que Estan Hablando tus amigos destacados:
+                    </span>
+
+                    <div style="padding-left:30px">
+                        <small>
+
+                            mostrando publicaciones de:
+
+                            <!--
+                                    
+                            Mantenemos la funcionalidad desarrollada en versiones anteriores para enviar al servidor
+                            el usuario del que mostrar los mensajes
+                        -->
+                            <select id="friend" name="friend" style="display:none"
+                                onchange="//updateFriendMessages(this)">
+
+                                <option value="All">Todos</option>
+                                {% for friend in friends %}
+                                <option value="{{ friend }}" {% if friend==selected_friend %} selected {% endif %}>
+
+                                    {{friend }} </option>
+                                {% endfor %}
+                            </select>
+
+
+                            <span id="selected_friend">{{ selected_friend }}</span>
+                            <input id="select_friend" name="select_friend" type="button"
+                                class="px-2 py-1 font-semibold text-blue-700 bg-transparent border border-blue-500 rounded hover:bg-blue-500 hover:text-white hover:border-transparent"
+                                value="Click para cambiar amigo" />
+                        </small>
+                    </div>
+                    <!--
+                    A diferencia de versiones anteriores, en la versión final los mensajes no se obtienen en la
+                    descarga inicial de la página, sino que se irán solicitando según el usuario interactúe con
+                    el documento, ya que podrá filtrar los mensajes que quiere visualizar en cada momento.
+                -->
+                    <div class="mt-5 "></div>
+                    <div id="messages" class="bg-white rounded-lg shadow-2xl scroll-div ">
+                        <div id="hols">
+
+                        </div>
+
+                    </div>
+                    <div class="mt-20 "></div>
+                </form>
+
+
+                <form id="div_friends" style="display:none">
+
+                    <span
+                        class="inline-block px-2 py-2 mr-1 text-xs font-semibold rounded-full text-slate-600 bg-slate-200 last:mr-0">
+                        Seleccione el amigo que quiere ver mensajes:
+                    </span>
+                    <div
+                        class="max-w-xl p-10 overflow-hidden bg-blue-200 rounded-lg shadow-xl shadow-cla-blue bg-gradient-to-r from-blue-50 to-blue-50">
+                        <div id="friends" style="margin:15px">
+                            <div class='par' id='t0'><input id='check0' value='All' type='checkbox'
+                                    onclick='pulsadoCheck(0)' />Todos
+                            </div>
+                            {% for friend in friends %}
+
+                            <div id='t{{loop.index}}' class='{{"impar" if (loop.index%2) else "par"}}'>
+                                <input id='check{{loop.index}}' value='{{friend}}' type='checkbox'
+                                    onclick='pulsadoCheck((loop.index))' />
+                                {{ friend }}
+                            </div>
+                            </span>
+                            {% endfor %}
+
+                        </div>
+                        <input id="ok_friend" name="ok_friend" type="button" value="OK"
+                            class="inline-flex justify-center w-full px-4 py-2 mt-3 font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-md hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-Blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm " />
+                        <input id="cancel_friend" name="cancel_friend" type="button" value="Cancel"
+                            class="inline-flex justify-center w-full px-4 py-2 font-medium text-white bg-red-700 border border-transparent rounded-md shadow-md hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-200 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm " />
+                    </div>
+                </form>
+
+            </div>
+            <!-- END CONTACTS -->
+        </div>
+    </div>
+    <!-- END RIGHT MENU -->
+    <!-- END MAIN -->
+
+
+    <!-- This is an example component -->
+    <div class="max-w-2xl mx-auto">
+
+        <!-- Modal toggle -->
+
+
+        <!-- Main modal -->
+        <div id="authentication-modal" aria-hidden="true"
+            class="fixed left-0 right-0 z-50 items-center justify-center hidden overflow-x-hidden overflow-y-auto h-modal md:h-full top-7 md:inset-1">
+            <div class="w-full h-full max-w-md px-4 my-12 md:h-auto">
+                <!-- Modal content -->
+                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                    <div class="flex justify-end p-2">
+                        <button type="button"
+                            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
+                            data-modal-toggle="authentication-modal">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path fill-rule="evenodd"
+                                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                    clip-rule="evenodd"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <form class="px-6 pb-4 space-y-6 lg:px-8 sm:pb-8 xl:pb-8" action="home" method="post" name="home"
+                        onsubmit="return validateMessageDHTML(this)" enctype="multipart/form-data" class="w-full">
+                        <ul class="errorMessages" style="display:none" id="errores_home"></ul>
+                        <!--
+                             Este campo oculto se añade para mantener la "memoria" del amigo del que se están visualizando
+                                los mensajes
+                                   -->
+                        <h3 class="text-xl font-medium text-gray-900 dark:text-white">Publicar</h3>
+                        <div>
+                            <label for="email"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Mensaje:</label>
+                            <input name="message" name="email" id="post"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                placeholder="Escribe aquí tu mensaje">
+                        </div>
+
+                        <!----    imagen form start -->
+                        <div class="flex auto">
+                            <div class="container flex flex-col items-center justify-center h-full mx-auto">
+                                <div id="images-container"></div>
+                                <div class="flex justify-center w-full">
+                                    <div id="multi-upload-button"
+                                        class="inline-flex items-center px-4 py-2 text-sm font-semibold tracking-widest text-white transition bg-gray-600 border border-gray-600 rounded-l cursor-pointer hover:bg-gray-500 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 ">
+                                        Click para buscar
+                                    </div>
+                                    <div
+                                        class="flex items-center justify-between w-4/12 border border-gray-300 lg:w-3/12 rounded-r-md">
+                                        <span id="multi-upload-text" class="p-2"></span>
+                                        <button id="multi-upload-delete" class="hidden"
+                                            onclick="return removeMultiUpload()" type="button">
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                class="w-3 h-3 text-red-700 fill-current" viewBox="0 0 320 512">
+                                                <path
+                                                    d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                                <input name="images" type="file" id="multi-upload-input" class="hidden" multiple />
+                            </div>
+
+                        </div>
+                        <div class="flex justify-between">
+                            <div class="flex items-start">
+
+
+                                <button type="submit" onclick=""
+                                    class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Publicar
+                                    Ahora!</button>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <script src="https://unpkg.com/@themesberg/flowbite@1.2.0/dist/flowbite.bundle.js"></script>
+    <script>
+        function gallery() {
+            this.index = 0;
+            this.load = function () {
+                this.rootEl = document.querySelector(".gallery");
+                this.platform = this.rootEl.querySelector(".platform");
+                this.frames = this.platform.querySelectorAll(".each-frame");
+                this.contentArea = this.rootEl.querySelector(".content-area");
+                this.width = parseInt(this.rootEl.style.width);
+                this.limit = { start: 0, end: this.frames.length - 1 };
+                this.frames.forEach(each => { each.style.width = this.width + "px"; });
+                this.goto(this.index);
+            }
+            this.set_title = function () { this.rootEl.querySelector(".heading").innerText = this.frames[this.index].getAttribute("title"); }
+            this.next = function () { this.platform.style.right = this.width * ++this.index + "px"; this.set_title(); }
+            this.prev = function () { this.platform.style.right = this.width * --this.index + "px"; this.set_title(); }
+            this.goto = function (index) { this.platform.style.right = this.width * index + "px"; this.index = index; this.set_title(); }
+            this.load();
+        }
+        var G = new gallery();
+        G.rootEl.addEventListener("click", function (t) {
+            var val = t.target.getAttribute("action");
+            if (val == "next" && G.index != G.limit.end) { G.next(); }
+            if (val == "prev" && G.index != G.limit.start) { G.prev(); }
+            if (val == "goto") {
+                let rv = t.target.getAttribute("goto");
+                rv = rv == "end" ? G.limit.end : rv;
+                G.goto(parseInt(rv));
+            }
+        });
+        document.addEventListener("keyup", function (t) {
+            var val = t.keyCode;
+            if (val == 39 && G.index != G.limit.end) { G.next(); }
+            if (val == 37 && G.index != G.limit.start) { G.prev(); }
+        });
+
+          // run G.load() if new data loaded with ajax
+
+    </script>
+    <script>
+        //all ids and some classes are importent for this script
+
+        multiUploadButton = document.getElementById("multi-upload-button");
+        multiUploadInput = document.getElementById("multi-upload-input");
+        imagesContainer = document.getElementById("images-container");
+        multiUploadDisplayText = document.getElementById("multi-upload-text");
+        multiUploadDeleteButton = document.getElementById("multi-upload-delete");
+
+        multiUploadButton.onclick = function () {
+            multiUploadInput.click(); // this will trigger the click event
+        };
+
+        multiUploadInput.addEventListener('change', function (event) {
+            event.preventDefault();
+            if (multiUploadInput.files) {
+                let files = multiUploadInput.files;
+
+                // show the text for the upload button text filed
+                multiUploadDisplayText.innerHTML = files.length + ' imagen seleccionada';
+
+                // removes styles from the images wrapper container in case the user readd new images
+                imagesContainer.innerHTML = '';
+                imagesContainer.classList.remove("w-full", "grid", "grid-cols-1", "sm:grid-cols-2", "md:grid-cols-3", "lg:grid-cols-4", "gap-4");
+
+                // add styles to the images wrapper container
+                imagesContainer.classList.add("w-full", "grid", "grid-cols-2", "sm:grid-cols-2", "md:grid-cols-3", "lg:grid-cols-1", "gap-4",);
+
+                // the delete button to delete all files
+                multiUploadDeleteButton.classList.add("z-100", "p-2", "my-auto");
+                multiUploadDeleteButton.classList.remove("hidden");
+                Object.keys(files).forEach(function (key) {
+
+                    let file = files[key];
+
+                    // the FileReader object is needed to display the image
+                    let reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onload = function () {
+
+                        // for each file we create a div to contain the image
+                        let imageDiv = document.createElement('div');
+                        imageDiv.classList.add("h-64", "mb-3", "w-full", "p-3", "rounded-lg", "bg-cover", "bg-center");
+                        imageDiv.style.backgroundImage = 'url(' + reader.result + ')';
+                        imagesContainer.appendChild(imageDiv);
+                    }
+                })
+            }
+        })
+
+        function removeMultiUpload() {
+            
+            imagesContainer.innerHTML = '';
+            imagesContainer.classList.remove("w-full", "grid", "grid-cols-1", "sm:grid-cols-2", "md:grid-cols-3", "lg:grid-cols-4", "gap-4");
+            multiUploadInput.value = '';
+            multiUploadDisplayText.innerHTML = '';
+            multiUploadDeleteButton.classList.add("hidden");
+            multiUploadDeleteButton.classList.remove("z-100", "p-2", "my-auto");
+        }
+    </script>
+
+</html>

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link
+    rel="stylesheet"
+    href="{{url_for('static',filename='css/dist/output.css')}}"
+  />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link href="/static/css/my-socnet-style.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.js" defer></script>
+    <title>
+        Home - SocNet
+    </title>
+</head>
+
+
+<body id="index">
+
+
+    </form>
+
+    <body class="body-bg min-h-screen pt-12 md:pt-20 pb-6 px-2 md:px-0" style="font-family:'Lato',sans-serif;">
+        <header class="max-w-lg mx-auto">
+            <a href="#">
+
+            </a>
+        </header>
+
+        <main
+            class="bg-gradient-to-r from-cyan-500 to-blue-500 max-w-lg mx-auto p-8 md:p-12 my-10 rounded-lg shadow-2xl">
+
+            <h1 class="text-4xl font-bold text-white text-center">Editar Publicacion</h1>
+
+            <section class="mt-12">
+                <form action="/update/{{posts.id}}" method="POST" enctype="multipart/form-data">
+
+                    <label class=" block text-white text-xl font-bold mb-2 ml-3 text-center" for="email">Mensaje
+                        Publicacion:</label>
+                    <div class="mb-10 pt-1 rounded bg-gray-200 ">
+
+                        <input type="text" name="fullname" placeholder="Write your fullname" value="{{posts.mens}}"
+                            class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-300 focus:border-purple-600 transition duration-500 px-2 pb-2">
+                    </div>
+                    <input id="femail" type="hidden" name="femail" placeholder="Write your email"
+                        value="{{posts.imgs}}" />
+
+
+                    </div>
+                    {%if posts.imgs!=""%}
+                    <label class=" block text-white text-xl font-bold mb-2 ml-3 text-center" for="email">Foto de la
+                        Publicacion:</label>
+                    <div class="sub w-full my-auto py-2">
+                        <!----    imagen form start -->
+                        <div class="flex auto">
+                            <div class="container mx-auto h-full flex flex-col justify-center items-center">
+                                <div id="images-container"></div>
+                                <div class="flex w-full justify-center py-6">
+                                    <div id="multi-upload-button"
+                                        class="inline-flex items-center px-4 py-2 bg-gray-600 border border-gray-600 rounded-l font-semibold cursor-pointer text-sm text-white tracking-widest hover:bg-gray-500 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring focus:ring-gray-300 disabled:opacity-25 transition ">
+                                        Click para buscar
+                                    </div>
+                                    <div
+                                        class="w-4/12 lg:w-3/12 border border-gray-300 rounded-r-md flex items-center justify-between">
+                                        <span id="multi-upload-text" class="p-2"></span>
+                                        <button id="multi-upload-delete" class="hidden" onclick="removeMultiUpload()">
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                class="fill-current text-red-700 w-3 h-3" viewBox="0 0 320 512">
+                                                <path
+                                                    d="M310.6 361.4c12.5 12.5 12.5 32.75 0 45.25C304.4 412.9 296.2 416 288 416s-16.38-3.125-22.62-9.375L160 301.3L54.63 406.6C48.38 412.9 40.19 416 32 416S15.63 412.9 9.375 406.6c-12.5-12.5-12.5-32.75 0-45.25l105.4-105.4L9.375 150.6c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0L160 210.8l105.4-105.4c12.5-12.5 32.75-12.5 45.25 0s12.5 32.75 0 45.25l-105.4 105.4L310.6 361.4z" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                                <input name="repimg" type="file" id="multi-upload-input" class="hidden" multiple />
+                            </div>
+
+                        </div>
+
+                        <img src=" {{ url_for('static', filename='images/pic_post/'+posts.imgs)}}" class="rounded-lg">
+
+                        {%else%}
+                    </div>
+                    <input name="repimg" type="file" id="multi-upload-input" class="hidden" multiple />
+                    </div>
+                    {%endif%}
+                    </div>
+
+                    <button
+                        class="bg-blue-900 text-white font-bold py-3 rounded shadow-lg hover:shadow-xl transition duration-200 px-4 ml-w/2 mr-5"
+                        type="submit">Actualizar</button>
+
+                </form>
+
+                <div class="items-center mb-2 py-8">
+
+                    <a href="{{ url_for('home')}}"
+                        class="btn btn-outline-danger btn-sm px-2 absolute  font-mono text-white ">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24">
+                            <path d="M0 0h24v24H0V0z" fill="none" opacity=".87" />
+                            <path d="M17.51 3.87L15.73 2.1 5.84 12l9.9 9.9 1.77-1.77L9.38 12l8.13-8.13z" />
+                        </svg>Volver</button></a>
+                </div>
+            </section>
+        </main>
+
+
+
+    </body>
+
+</body>
+
+</html>
+</body>
+<script>
+    function setup() {
+        return {
+            activeTab: 0,
+            tabs: [
+                "Imagen",
+                "Texto",
+
+            ]
+        };
+    };
+</script>
+<script>
+    function gallery() {
+        this.index = 0;
+        this.load = function () {
+            this.rootEl = document.querySelector(".gallery");
+            this.platform = this.rootEl.querySelector(".platform");
+            this.frames = this.platform.querySelectorAll(".each-frame");
+            this.contentArea = this.rootEl.querySelector(".content-area");
+            this.width = parseInt(this.rootEl.style.width);
+            this.limit = { start: 0, end: this.frames.length - 1 };
+            this.frames.forEach(each => { each.style.width = this.width + "px"; });
+            this.goto(this.index);
+        }
+        this.set_title = function () { this.rootEl.querySelector(".heading").innerText = this.frames[this.index].getAttribute("title"); }
+        this.next = function () { this.platform.style.right = this.width * ++this.index + "px"; this.set_title(); }
+        this.prev = function () { this.platform.style.right = this.width * --this.index + "px"; this.set_title(); }
+        this.goto = function (index) { this.platform.style.right = this.width * index + "px"; this.index = index; this.set_title(); }
+        this.load();
+    }
+    var G = new gallery();
+    G.rootEl.addEventListener("click", function (t) {
+        var val = t.target.getAttribute("action");
+        if (val == "next" && G.index != G.limit.end) { G.next(); }
+        if (val == "prev" && G.index != G.limit.start) { G.prev(); }
+        if (val == "goto") {
+            let rv = t.target.getAttribute("goto");
+            rv = rv == "end" ? G.limit.end : rv;
+            G.goto(parseInt(rv));
+        }
+    });
+    document.addEventListener("keyup", function (t) {
+        var val = t.keyCode;
+        if (val == 39 && G.index != G.limit.end) { G.next(); }
+        if (val == 37 && G.index != G.limit.start) { G.prev(); }
+    });
+
+      // run G.load() if new data loaded with ajax
+
+</script>
+<script>
+    //all ids and some classes are importent for this script
+
+    multiUploadButton = document.getElementById("multi-upload-button");
+    multiUploadInput = document.getElementById("multi-upload-input");
+    imagesContainer = document.getElementById("images-container");
+    multiUploadDisplayText = document.getElementById("multi-upload-text");
+    multiUploadDeleteButton = document.getElementById("multi-upload-delete");
+
+    multiUploadButton.onclick = function () {
+        multiUploadInput.click(); // this will trigger the click event
+    };
+
+    multiUploadInput.addEventListener('change', function (event) {
+
+        if (multiUploadInput.files) {
+            let files = multiUploadInput.files;
+
+            // show the text for the upload button text filed
+            multiUploadDisplayText.innerHTML = files.length + ' imagen seleccionada';
+
+            // removes styles from the images wrapper container in case the user readd new images
+            imagesContainer.innerHTML = '';
+            imagesContainer.classList.remove("w-full", "grid", "grid-cols-1", "sm:grid-cols-2", "md:grid-cols-3", "lg:grid-cols-4", "gap-4");
+
+            // add styles to the images wrapper container
+            imagesContainer.classList.add("w-full", "grid", "grid-cols-2", "sm:grid-cols-2", "md:grid-cols-3", "lg:grid-cols-1", "gap-4",);
+
+            // the delete button to delete all files
+            multiUploadDeleteButton.classList.add("z-100", "p-2", "my-auto");
+            multiUploadDeleteButton.classList.remove("hidden");
+
+            Object.keys(files).forEach(function (key) {
+
+                let file = files[key];
+
+                // the FileReader object is needed to display the image
+                let reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = function () {
+
+                    // for each file we create a div to contain the image
+                    let imageDiv = document.createElement('div');
+                    imageDiv.classList.add("h-64", "mb-3", "w-full", "p-3", "rounded-lg", "bg-cover", "bg-center");
+                    imageDiv.style.backgroundImage = 'url(' + reader.result + ')';
+                    imagesContainer.appendChild(imageDiv);
+                }
+            })
+        }
+    })
+
+    function removeMultiUpload() {
+        imagesContainer.innerHTML = '';
+        imagesContainer.classList.remove("w-full", "grid", "grid-cols-1", "sm:grid-cols-2", "md:grid-cols-3", "lg:grid-cols-4", "gap-4");
+        multiUploadInput.value = '';
+        multiUploadDisplayText.innerHTML = '';
+        multiUploadDeleteButton.classList.add("hidden");
+        multiUploadDeleteButton.classList.remove("z-100", "p-2", "my-auto");
+    }
+</script>
+
+</html>

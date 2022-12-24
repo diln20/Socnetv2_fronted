@@ -1,0 +1,12 @@
+
+* { font-family: Montserrat }
+
+.w-128 { width: 32rem }
+.h-96 { height: 24rem }
+.t-4 { top: 1rem }
+.-r-64 { right: -16rem }
+
+.emoji-invoker { transition: all 0.2s }
+.emoji-invoker:hover { transform: scale(1.1) }
+
+.emojis:after { content: ""; flex: auto }

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Perfil</title>
+    <script src="static/js/uploadphoto.js"></script>
+    <link rel="shortcut icon" href="./images/fb-logo.png" type="image/png">
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <link
+      rel="stylesheet"
+      href="{{url_for('static',filename='css/dist/output.css')}}"
+    />
+    <link href="static/css/my-socnet-style.css" rel="stylesheet" type="text/css" />
+    <script src="https://code.jquery.com/jquery-3.4.0.min.js"
+        integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="static/js/home.js"></script>
+    <link href="static/css/my-socnet-style.css" rel="stylesheet" type="text/css" />
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- La siguiente línea carga jQuery en el cliente, solo es necesaria si se va a utilizar esta biblioteca -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="static/js/home.js"></script>
+    <script>
+        // Asignación de la funcionalidad del documento en el cliente con jQuery una vez se ha producido la descarga
+        // Este método sustituye a la asignación de handles de funciones en los eventos HTML correspondientes
+        // Se indica con comentarios cómo se realizaría la misma asignación de funcionalidad con el estándar
+
+        // Una vez está disponible todo el contenido del documento, lo que asegura que la biblioteca jQuery se
+        // ha descargado correctamente en el cliente, se asigna la funcionalidad a los elementos del documento
+        $(document).ready(function () {
+            // Equivalente a asignar una función anónima el evento submit del formulario
+            $('form[name=home]').submit(function (evnt) {
+                if (!validateMessageDHTML(this)) {
+                    evnt.preventDefault()
+                }
+            })
+
+            // Equivalente a asignar la función updateFriendMessages al evento change del select
+            $('select[name=friend]').change(updateFriendMessagesJQUERY)
+
+            // Equivalente a asignar las funciones correspondientes al evento click de cada input
+            $('input[name=select_friend]').click(showFriends)
+            $('input[name=cancel_friend]').click(function () {
+                $("#div_friends").hide()
+                $("#div_messages").show()
+            });
+            $('input[name="ok_friend"]').click(selectFriend)
+
+            // Una vez se ha descargado la página se solicitan los mensajes en función de la selección del usuario
+            // en el campo de amigos de los que ver los mensajes
+            // En caso de no usar jQuery estas llamadas debería hacerse en el load del documento
+            updateFriendMessagesJQUERY()
+            $("#right").show()
+        });
+    </script>
+
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js"></script>
+
+    <!-- NAV -->
+    <nav
+        class="fixed top-0 z-50 flex flex-col items-center justify-center w-full bg-blue-200 border-b shadow h-max md:h-14 md:flex-row md:justify-between dark:border-dark-third">
+
+        <!-- LEFT NAV -->
+        <div class="flex items-center justify-between w-full px-4 py-2 md:w-max">
+            <a href="home" class="hidden mr-2 md:inline-block">
+                <img src="{{ url_for('static', filename='svg/'+'logo.png')}}" alt="SocNet logo"
+                    class="w-24 h-auto sm:w-20 lg:w-10">
+            </a>
+            <a href="#" class="inline-block md:hidden">
+                <img src="{{ url_for('static', filename='svg/'+'logo.png')}}" alt="" class="w-12 h-auto">
+            </a>
+            <div class="flex items-center justify-between space-x-1">
+                <div
+                    class="relative flex items-center justify-center w-10 h-10 px-2 py-2 bg-gray-100 rounded-full cursor-pointer dark:bg-dark-third sm:w-11 sm:h-11 lg:h-10 lg:w-10 xl:w-max xl:pl-3 xl:pr-8">
+                    <i class='text-xl bx bx-search-alt-2 xl:mr-2 dark:text-dark-txt'></i>
+                    <input type="text" placeholder="Search SocNet"
+                        class="hidden bg-transparent outline-none xl:inline-block">
+                </div>
+                <div
+                    class="grid w-10 h-10 text-2xl bg-gray-200 rounded-full cursor-pointer place-items-center md:hidden dark:bg-dark-third hover:bg-gray-300 dark:text-dark-txt">
+                    <i class='bx bxl-messenger'></i>
+                </div>
+                <div class="grid w-10 h-10 text-2xl bg-gray-200 rounded-full cursor-pointer place-items-center md:hidden dark:bg-dark-third hover:bg-gray-300 dark:text-dark-txt"
+                    id="dark-mode-toggle-mb">
+                    <i class='bx bxs-moon'></i>
+                </div>
+            </div>
+        </div>
+        <!-- END LEFT NAV -->
+
+        <!-- MAIN NAV -->
+        <ul class="flex items-center justify-center w-full lg:w-max">
+            <li class="w-1/5 text-center md:w-max">
+                <a href="#"
+                    class="inline-block w-full px-3 py-2 text-3xl text-center text-blue-500 border-b-4 border-blue-500 cursor-pointer xl:px-12">
+                    <i class='bx bxs-home'></i>
+                </a>
+            </li>
+            <li class="w-1/5 text-center md:w-max">
+                <a href="#"
+                    class="relative inline-block w-full px-3 py-2 text-3xl text-center text-gray-600 rounded cursor-pointer xl:px-12 hover:bg-gray-100 dark:hover:bg-dark-third dark:text-dark-txt">
+                    <i class='bx bx-movie-play'></i>
+                    <span
+                        class="absolute top-0 px-1 text-xs font-semibold text-center text-white bg-red-500 rounded-full right-1/4">9+</span>
+                </a>
+            </li>
+            <li class="w-1/5 text-center md:w-max">
+                <a href="#"
+                    class="relative inline-block w-full px-3 py-2 text-3xl text-center text-gray-600 rounded cursor-pointer xl:px-12 hover:bg-gray-100 dark:hover:bg-dark-third dark:text-dark-txt">
+                    <i class='bx bx-store'></i>
+                </a>
+            </li>
+            <li class="w-1/5 text-center md:w-max">
+                <a href="#"
+                    class="relative inline-block w-full px-3 py-2 text-3xl text-center text-gray-600 rounded cursor-pointer xl:px-12 hover:bg-gray-100 dark:hover:bg-dark-third dark:text-dark-txt">
+                    <i class='bx bx-group'></i>
+                </a>
+            </li>
+            <li class="hidden w-1/5 text-center md:w-max md:inline-block">
+                <a href="#"
+                    class="relative inline-block w-full px-3 py-2 text-3xl text-center text-gray-600 rounded cursor-pointer xl:px-12 hover:bg-gray-100 dark:hover:bg-dark-third dark:text-dark-txt">
+                    <i class='bx bx-layout'></i>
+                    <span
+                        class="absolute top-0 px-1 text-xs font-semibold text-center text-white bg-red-500 rounded-full right-1/4">9+</span>
+                </a>
+            </li>
+            <li class="inline-block w-1/5 text-center md:w-max md:hidden">
+                <a href="#"
+                    class="relative inline-block w-full px-3 py-2 text-3xl text-center text-gray-600 rounded cursor-pointer xl:px-12 hover:bg-gray-100 dark:hover:bg-dark-third dark:text-dark-txt">
+                    <i class='bx bx-menu'></i>
+                </a>
+            </li>
+        </ul>
+        <!-- RIGHT NAV -->
+        <ul class="items-center justify-center hidden mx-4 md:flex">
+            {%if session['imag']!= "" %}
+            <li class="hidden h-full xl:flex">
+                <a href="profile"
+                    class="inline-flex items-center justify-center p-1 mx-1 rounded-full hover:bg-gray-200 dark:hover:bg-dark-third">
+                    <img src="{{ url_for('static', filename='images/'+session['imag'])}}" alt="Profile picture"
+                        class="rounded-full h-7 w-7">
+                    <span class="mx-2 font-semibold dark:text-dark-txt">{{nickname}}</span>
+                </a>
+            </li>
+            {%else%}
+            <li class="hidden h-full xl:flex">
+                <a href="profile"
+                    class="inline-flex items-center justify-center p-1 mx-1 rounded-full hover:bg-gray-200 dark:hover:bg-dark-third">
+                    <img src="{{ url_for('static', filename='images/default_profile_pic.png')}}" alt="Profile picture"
+                        class="rounded-full h-7 w-7">
+                    <span class="mx-2 font-semibold dark:text-dark-txt">{{nickname}}</span>
+                </a>
+            </li>
+            {%endif%}
+            <li>
+                <div
+                    class="relative hidden p-3 mx-1 text-xl bg-gray-200 rounded-full cursor-pointer xl:grid place-items-center dark:bg-dark-third dark:text-dark-txt hover:bg-gray-300">
+                    <i class='bx bx-plus'></i>
+                </div>
+            </li>
+            <li>
+                <div
+                    class="relative hidden p-3 mx-1 text-xl bg-gray-200 rounded-full cursor-pointer xl:grid place-items-center dark:bg-dark-third dark:text-dark-txt hover:bg-gray-300">
+                    <i class='bx bxl-messenger'></i>
+                </div>
+            </li>
+            <li>
+                <div
+                    class="relative grid p-3 mx-1 text-xl bg-gray-200 rounded-full cursor-pointer place-items-center dark:bg-dark-third dark:text-dark-txt hover:bg-gray-300">
+                    <i class='bx bxs-bell'></i>
+                    <span
+                        class="absolute top-0 right-0 px-1 text-xs font-semibold text-center text-white bg-red-500 rounded-full">9</span>
+                </div>
+            </li>
+
+        </ul>
+        <!-- END RIGHT NAV -->
+    </nav>
+    <!-- END NAV -->
+
+
+    </div>
+    <meta charset="utf-8" />
+    <link href="static/css/my-socnet-style.css" rel="stylesheet" type="text/css" />
+    <title>
+        Home - SocNet
+    </title>
+    <script src="static/js/profile.js"></script>
+</head>
+
+<body>
+    <!DOCTYPE html>
+    <html lang="en">
+
+
+
+    <body id="index">
+        <div id="container">
+            <a href="/">
+                SocNet
+            </a>
+            |
+            <a href="home">
+                Home
+            </a>
+            |
+            <a href="logout">
+                Log Out ({{ nickname }})
+            </a>
+
+            <div>
+                <!--
+            Dependiendo del momento del curso en el que nos encontremos, la definición del formulario variará
+            
+            - Después de explicar la validación de formularios con JS será:
+            <form action="/profile" method="post" name="profile" onsubmit="return validateProfile(this)">
+            
+            - Después de explicar DHTML y que sepáis cómo variar dinámicamente el contenido del documento será:
+            <form action="/profile" method="post" name="profile" onsubmit="return validateProfileDHTML(this)">
+            -->
+                <form action="/profile" method="post" name="profile" onsubmit="return validateProfileDHTML(this)">
+                    <ul class="errorMessages" style="display:none" id="errores_profile"></ul>
+
+                    <label for="nickname">
+                        Nickname
+                    </label>
+                    <div
+                        class="w-full px-2 pb-2 text-gray-700 transition duration-500 bg-gray-200 border-b-4 border-gray-300 rounded focus:outline-none focus:border-purple-600">
+                        <input id="nickname" maxlength="64" name="nickname" placeholder="Nickname" size="80" type="text"
+                            value="{{ nickname }}" />
+                    </div>
+                    <label for="email">
+                        Email
+                    </label>
+                    <div
+                        class="w-full px-2 pb-2 text-gray-700 transition duration-500 bg-gray-200 border-b-4 border-gray-300 rounded focus:outline-none focus:border-purple-600">
+                        <input id="email" name="email" placeholder="Email" size="80" type="text" value="{{ email }}"
+                            readonly />
+                    </div>
+                    <label for="friends">
+                        Friends (Hold down the Ctrl (windows) / Command (Mac) button to select multiple options)
+                    </label>
+                    <div
+                        class="w-full px-2 pb-2 text-gray-700 transition duration-500 bg-gray-200 border-b-4 border-gray-300 rounded focus:outline-none focus:border-purple-600">
+                        <select id="friends" name="friends" size="5" multiple>
+                            {% for option in all_users %}
+                            <option value="{{ option }} " {% if option in friends %} selected {% endif %}>{{ option }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <label for="passwd">
+                        New Password
+                    </label>
+                    <div
+                        class="w-full px-2 pb-2 text-gray-700 transition duration-500 bg-gray-200 border-b-4 border-gray-300 rounded focus:outline-none focus:border-purple-600">
+                        <input id="passwd" name="passwd" placeholder="Password" size="80" type="password"
+                            value="{{ passwd }}" />
+                    </div>
+                    <label for="confirm">
+                        Repeat Password
+                        <div
+                            class="w-full px-2 pb-2 text-gray-700 transition duration-500 bg-gray-200 border-b-4 border-gray-300 rounded focus:outline-none focus:border-purple-600">
+                            <input id="confirm" name="confirm" placeholder="Repeat Password" size="80" type="password"
+                                value="{{ passwd }}" />
+                        </div>
+                        <div
+                            class="w-full px-2 pb-2 text-gray-700 transition duration-500 bg-gray-200 border-b-4 border-gray-300 rounded focus:outline-none focus:border-purple-600">
+                            <input id="accept_submit" name="accept_submit" type="submit" value="Accept" />
+                        </div>
+                    </label>
+                </form>
+            </div>
+        </div>
+
+    </body>
+
+    </html>

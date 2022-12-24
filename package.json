@@ -1,0 +1,23 @@
+{
+  "name": "socnet_web",
+  "version": "1.0.0",
+  "description": "\u0000",
+  "main": "index.js",
+  "scripts": {
+    "watch-css": "npx tailwindcss -i ./static/css/src/input.css -o ./static/css/dist/output.css --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diln20/Socnetv2_web.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/diln20/Socnetv2_web/issues"
+  },
+  "homepage": "https://github.com/diln20/Socnetv2_web#readme",
+  "devDependencies": {
+    "tailwindcss": "^3.1.2"
+  }
+}

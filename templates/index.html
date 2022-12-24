@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      rel="stylesheet"
+      href="{{url_for('static',filename='css/dist/output.css')}}"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
+    <link
+      href="static/css/my-socnet-style.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <title>Principal</title>
+  </head>
+
+  <body id="index">
+    <div class="text-slate-100 dark:text-slate-100 text-center text-7xl">
+      Bienvenido a SocNet
+    </div>
+    <div id="containers">
+      <div id="pad">
+        <a id="link" href="/">
+          <div
+            class="max-w-sm rounded overflow-hidden shadow-lg bg-gradient-to-r from-cyan-500 to-blue-500 ml-12"
+          >
+            <img src="{{ url_for('static', filename='svg/'+'logo.png')}}" />
+            <div class="px-4 py-6">
+              <div class="font-bold text-2xl text-center text-slate-100">
+                SocNet
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+      <div id="pad">
+        {% if logged %}
+        <a id="link" href="home">
+          <div
+            class="max-w-sm rounded overflow-hidden shadow-lg bg-gradient-to-r from-cyan-500 to-blue-500"
+          >
+            <img src="{{ url_for('static', filename='svg/'+'casa.png')}}" />
+            <div class="px-6 py-4">
+              <div class="font-bold text-2xl mb-2 text-center text-slate-100">
+                Home
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+      <div id="pad">
+        <a id="link" href="profile">
+          <div
+            class="max-w-sm rounded overflow-hidden shadow-lg bg-gradient-to-r from-cyan-500 to-blue-500"
+          >
+            <img src="{{ url_for('static', filename='svg/'+'editar.png')}}" />
+            <div class="px-6 py-4">
+              <div class="font-bold text-2xl mb-2 text-center text-slate-100">
+                Perfil
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+      <div id="pad">
+        <a id="link" href="logout">
+          <div
+            class="max-w-sm rounded overflow-hidden shadow-lg bg-gradient-to-r from-cyan-500 to-blue-500"
+          >
+            <img src="{{ url_for('static', filename='svg/'+'salir.png')}}" />
+            <div class="px-6 py-4">
+              <div class="font-bold text-2xl text-center text-slate-100">
+                Logout({{nickname}})
+              </div>
+            </div>
+          </div>
+        </a>
+        {%else%}
+      </div>
+      <div id="pad">
+        <a id="link" href="login">
+          <div
+            class="max-w-sm rounded overflow-hidden shadow-lg bg-gradient-to-r from-cyan-500 to-blue-500"
+          >
+            <img src="{{ url_for('static', filename='svg/'+'cuenta.png')}}" />
+            <div class="px-6 py-6">
+              <div class="font-bold text-2xl mb- text-center text-slate-100">
+                Login
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
+      <div id="pad">
+        <a id="link" href="signup">
+          <div
+            class="max-w-sm rounded overflow-hidden shadow-lg bg-gradient-to-r from-cyan-500 to-blue-500"
+          >
+            <img src="{{ url_for('static', filename='svg/'+'crear.png')}}" />
+            <div class="px-5 py-4">
+              <div class="font-bold text-2xl mb-2 text-center text-slate-100">
+                Signup
+              </div>
+            </div>
+          </div>
+        </a>
+        {% endif %}
+      </div>
+    </div>
+  </body>
+</html>
